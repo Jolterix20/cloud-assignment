@@ -29,7 +29,7 @@ app.get('/posts', async (req, res) => {
 
 		res.status(200).send(postsToSend)
 	} catch (error) {
-		console.log(error)
+		res.send(404).json({ message: error.message })
 	}
 })
 
@@ -49,7 +49,7 @@ app.post('/posts', async (req, res) => {
 		await table.insert(postToWrite)
 		res.status(201).json({ message: `${postToWrite.key} is written` })
 	} catch (error) {
-		console.log(error)
+		res.send(500).json({ message: error.message })
 	}
 })
 
@@ -60,7 +60,7 @@ app.delete('/posts/:id', async (req, res) => {
 
 		res.status(200).json({ message: 'Deleted' })
 	} catch (error) {
-		console.log(error)
+		res.send(404).json({ message: error.message })
 	}
 })
 
@@ -72,8 +72,7 @@ app.get('/posts/:id', async (req, res) => {
 		const postToSend = post.data.post
 		res.status(200).send(postToSend)
 	} catch (error) {
-		console.log(error)
-		res.status(404).json({ message: 'Post not found' })
+		res.status(404).json({ message: error.message })
 	}
 })
 
